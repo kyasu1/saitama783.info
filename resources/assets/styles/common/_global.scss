@@ -1,0 +1,29 @@
+.my-gold { color: $my-gold; }
+.my-bg-gold { background-color: $my-gold; }
+.my-b--gold { border-color: $my-gold; }
+
+.my-purple { color: $my-purple; }
+.my-bg-purple { background-color: $my-purple; }
+.my-b--purple { border-color: $my-purple; }
+
+.my-dark-blue { color: $my-dark-blue; }
+.my-bg-dark-blue { background-color: $my-dark-blue; }
+.my-b--dark-blue { border-color: $my-dark-blue; }
+
+.menu-top { margin-top: -1rem; }
+.menu-bottom { margin-top: 0.7rem; }
+
+.box {
+  width: 100vw;
+  height: 100vh;
+  background-image: url('./images/door.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.shopinfo-h2 {
+  padding: 0.5em;
+  color: $my-dark-blue;
+  border-bottom: solid 1px $my-dark-blue;
+  border-left: solid 5px $my-dark-blue;
+}
