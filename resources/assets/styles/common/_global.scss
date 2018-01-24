@@ -16,9 +16,13 @@
 .box {
   width: 100vw;
   height: 100vh;
-  background-image: url('./images/door.jpg');
+  background-image: url('../images/door.jpg');
   background-size: cover;
   background-position: center;
+}
+
+.bg-lg-black {
+  background: linear-gradient(#0d0d0b, #000);
 }
 
 .shopinfo-h2 {
@@ -26,4 +30,28 @@
   color: $my-dark-blue;
   border-bottom: solid 1px $my-dark-blue;
   border-left: solid 5px $my-dark-blue;
+}
+
+.togglebox {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.toggletiptext {
+  /*  visibility: hidden; */
+  width: 140px;
+  background-color: black;
+  color: #fff;
+  text-align: left;
+  border-radius: 6px;
+  font-size: 10px;
+  padding: 5px;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -40px;
 }

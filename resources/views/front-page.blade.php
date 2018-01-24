@@ -2,7 +2,7 @@
 
 @section('content')
   <div class="mw100 mv3 ba">
-    <img src="http://ts001.aistear.net/wp-content/uploads/2018/01/slide004.png">
+    {!! wp_get_attachment_image( get_field('banner-image'), 'large', false, array( 'class' => 'h-auto w-100')) !!}
   </div>
   <div>
     <h2 class="my-bg-purple f3 tc pv3 mv2 white">
@@ -11,6 +11,7 @@
     @php
     $args = array(
       'posts_per_page' => 10,
+      'category_name' => 'news',
     );
     $the_query = new WP_Query( $args );
     @endphp
@@ -77,5 +78,22 @@
       08<br>身分証明書が必要です
     </h3>
     <p class="ph1 ph3-ns">ご利用の際は、身分証明書が必要です。運転免許証や保険証、パスポートなどをお持ち下さい。詳細は各店舗に問い合わせ下さい。</p>
-  </div>
+    <h2 class="my-bg-dark-blue f3 tc pv3 mv2 white">
+      リンク
+    </h2>
+    <div class="flex flex-column flex-row-ns justify-between-ns tc">
+      <div class="pa1 ">
+        <a class="dib link dim" href="https://www.shichimaru.com" target="_blank">
+          <img src="@asset('images/link_01.png')" title="しちまる公式ホームページ">
+        </a>
+        <p>質屋のマスコットキャラクター<BR>しちまるの公式ホームページです。</p>
+      </div>
+      <div class="pa1">
+        <a class="dib link dim" href="http://www.zenshichi.gr.jp" target="_blank">
+          <img src="@asset('images/link_02.png')" title="全国質屋組合連合会">
+        </a>
+        <p>全国の質屋さんの情報はこちら<BR>全国質屋組合連合会のページです</p>
+      </div>
+    </div>     
+ </div>
 @endsection

@@ -5,7 +5,7 @@
     @php(do_action('get_header'))
     @include('partials.header')
     <div class="wrap container" role="document">
-      <div class="content ph3-m ph5-l center mw8-m mw9-l">
+      <div class="content ph3-m ph5-l center mw8-ns">
         <main class="main">
           @yield('content')
         </main>

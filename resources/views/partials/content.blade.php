@@ -11,14 +11,10 @@
 </article>
 */
 @endphp
-@php
-  $thumbnail_id = get_post_thumbnail_id();
-  $eye_img = wp_get_attachment_image_src($thumbnail_id, 'full');
-@endphp
-<article class="flex">
+<article @php(post_class('flex'))>
   <a href="{{ the_permalink() }}" class="link">
-    <div class="w4 w5-ns">
-      <img src={{ $eye_img[0] }} >
+    <div class="w4 w5-ns ba" style="line-height: 0">
+      {{ the_post_thumbnail( 'medium', array( 'class' => 'h-auto')) }}
     </div>
   </a>
   <div class="w-100 ml1">

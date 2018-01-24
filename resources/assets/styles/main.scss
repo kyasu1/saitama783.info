@@ -11,6 +11,8 @@
  */
 // @import "~some-node-module";
 
+@import "~lightbox2/dist/css/lightbox";
+
 /** Import theme styles */
 @import "common/global";
 @import "components/buttons";
@@ -23,4 +25,3 @@
 @import "layouts/pages";
 @import "layouts/posts";
 @import "layouts/tinymce";
-

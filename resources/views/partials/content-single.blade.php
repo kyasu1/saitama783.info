@@ -3,14 +3,12 @@
     @include('partials/entry-meta')
     <h1 class="entry-title ph1 f4 f2-ns b">{{ get_the_title() }}</h1>
   </header>
-  @php
-  $thumbnail_id = get_post_thumbnail_id();
-  $eye_img = wp_get_attachment_image_src($thumbnail_id, 'full');
-  @endphp
+  <!--
   <div class="tc ph1 ph5-m ph6-l">
-    <img src="{{ $eye_img[0] }}" class="ba">
+    {{ the_post_thumbnail( 'large', array( 'class' => 'ba h-auto')) }}
   </div>
-  <div class="entry-content lh-copy ph1 f4 f3-ns">
+  -->
+  <div class="entry-content lh-copy ph1 f5 f4-ns">
     @php(the_content())
   </div>
   <footer>
