@@ -38,14 +38,29 @@
   border-bottom: 1px dotted black;
 }
 
+@keyframes op {
+  0% {
+    background-color: rgba(0, 0, 0, 0);
+    opacity: 0;
+  }
+
+  100% {
+    background-color: rgba(0, 0, 0, 0.8);
+    opacity: 1;
+  }
+}
+
 .toggletiptext {
   /*  visibility: hidden; */
-  width: 140px;
-  background-color: black;
+  width: 12rem;
+
+  /*  background-color: rgba(0, 0, 0, 0.8); */
+  animation-name: op;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
   color: #fff;
   text-align: left;
   border-radius: 6px;
-  font-size: 10px;
   padding: 5px;
 
   /* Position the tooltip */

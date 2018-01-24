@@ -14,6 +14,8 @@
         {{ the_title() }}
       </a>
     </div>
+    <div class="f4-ns mv1">定休日&nbsp{{ get_field('closed') }}</div>
+    <div class="f4-ns mv1">営業時間&nbsp{{ get_field('opening') }}</div>
     <div class="f4-ns mv1">{!! do_shortcode( get_post_meta($post->ID, 'access', true) ) !!}</div>
     <p class="dn tr f6 f5-ns fw8"><time class="updated" datetime="{{ get_post_time('c', true) }}">{{ get_the_date('Y.m.d') }}</time>&nbsp;更新</p>
   </div>

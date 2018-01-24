@@ -10,7 +10,7 @@ export default {
       toggletip.addEventListener('click', function() {
         liveRegion.innerHTML = '';
         window.setTimeout(function() {
-          liveRegion.innerHTML = '<span class="toggletiptext">' + message + '</span>';
+          liveRegion.innerHTML = '<span class="toggletiptext f6 f5-ns lh-copy-ns">' + message + '</span>';
         }, 100);
       });
   
