@@ -2,8 +2,7 @@
 
 namespace App;
 
-
-//カスタム投稿タイプ
+//店舗情報カスタム投稿タイプ
 function shopinfo_register_post_types() {
   register_post_type( 'shopinfo', [
     'description' => '店舗の紹介です',
@@ -46,6 +45,7 @@ function my_acf_google_map_api($api)
 
 add_filter('acf/fields/google_map/api', 'App\my_acf_google_map_api');
 
+// 駅が所属する路線をポップアップ表示するショートコード
 function stations()
 {
     return array(
@@ -118,7 +118,7 @@ function stations()
         '戸田駅' => 'JR埼京線',
     );
 }
-// Short code for station tooltips
+
 function station_tooltip($atts, $content = "")
 {
     $stations = stations();
@@ -132,3 +132,99 @@ function station_tooltip($atts, $content = "")
 }
 
 add_shortcode('eki', 'App\station_tooltip');
+
+// 電話番号
+
+function mobile_tel($atts, $content = "")
+{
+    extract(shortcode_atts(array(
+        'class' => 'link black',
+    ), $atts));
+
+    $tel = sanitize_text_field($content);
+    if ( wp_is_mobile() ) {
+      return '<a href="tel://' . $tel . '" class="' . $class . '"">' . $tel . '</a>';
+    } else {
+      return '<span class="' . $class . '">' . $tel . '</span>';
+    }
+}
+
+add_shortcode('tel', 'App\mobile_tel');
+
+/* Sidebar widget for retina image banner */
+use WP_Widget;
+
+add_action( 'widgets_init', function() {
+  register_widget( 'App\retina_banner' );
+});
+
+class retina_banner extends WP_Widget {
+  function __construct() {
+    parent::__construct(
+      'retina_banner',
+      __('Retina Banner Widget', 'retina_banner_domain'),
+      array( 'description' => __( 'Retina Image Banner', 'retina_banner_domain' ))
+    );
+  }
+  public function widget( $args, $instance ) {
+    $title = apply_filters( 'widget_title', $instance['title'] );
+    $image1x = $instance['image1x'];
+    $image2x = $instance['image2x'];
+    $url = $instance['url'];
+
+    echo $args['before_widget'];
+    ?>
+    <a href="<?php echo $url; ?>">
+      <img src="<?php echo $image1x; ?>"
+           srcset="<?php echo $image1x; ?> 1x, <?php echo $image2x; ?> 2x"
+           class="w-100"
+      />
+    </a>
+    <?php
+    echo $args['after_widget'];
+  }
+
+  public function form( $instance ) {
+    if( $instance ) {
+      $image1x = isset($instance['image1x']) ? $instance['image1x'] : '';
+      $image2x = isset($instance['image2x']) ? $instance['image2x'] : '';
+      $url = isset($instance['url']) ? $instance['url'] : '';
+    } else {
+      $image1x = '';
+      $image2x = '';
+      $url = '';
+    }
+    ?>
+    <p>
+      <label for="<?php echo $this->get_field_id( 'image1x' ); ?>">Image 1x</label>
+      <input class="widefat" id="<?php echo $this->get_field_id( 'image1x' )?>"
+             name="<?php echo $this->get_field_name( 'image1x' ); ?>"
+             type="text"
+             value="<?php echo esc_attr( $image1x ); ?>" />
+    </p>
+    <p>
+      <label for="<?php echo $this->get_field_id( 'image2x' ); ?>">Image 2x</label>
+      <input class="widefat" id="<?php echo $this->get_field_id( 'image2x' )?>"
+             name="<?php echo $this->get_field_name( 'image2x' ); ?>"
+             type="text"
+             value="<?php echo esc_attr( $image2x ); ?>" />
+    </p>
+    <p>
+      <label for="<?php echo $this->get_field_id( 'url' ); ?>">URL</label>
+      <input class="widefat" id="<?php echo $this->get_field_id( 'url' )?>"
+             name="<?php echo $this->get_field_name( 'url' ); ?>"
+             type="text"
+             value="<?php echo esc_attr( $url ); ?>" />
+    </p>
+    <?php
+  }
+
+  public function update( $new_instance, $old_instance ) {
+    $instance = array();
+    $instance['title'] = ( !empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) :'';
+    $instance['image1x'] = ( !empty( $new_instance['image1x'] ) ) ? strip_tags( $new_instance['image1x'] ) :'';
+    $instance['image2x'] = ( !empty( $new_instance['image2x'] ) ) ? strip_tags( $new_instance['image2x'] ) :'';
+    $instance['url'] = ( !empty( $new_instance['url'] ) ) ? strip_tags( $new_instance['url'] ) :'';
+    return $instance;
+  }
+}

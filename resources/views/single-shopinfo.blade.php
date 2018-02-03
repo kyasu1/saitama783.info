@@ -5,12 +5,13 @@
   <article @php(post_class())>
     <header class="ph1 pt3 bb my-b--gold">
       @include('partials/entry-meta')
-      <h1 class="entry-title ph1 f4 f2-ns b mb1">{{ get_the_title() }}</h1>
+      <h1 class="entry-title ph1 f4 f2-ns b mb1 my-purple">{{ get_the_title() }}</h1>
     </header>
     <!-- コンテンツスタート -->
-    <div class="flex flex-column flex-row-l">
+    {{-- <div class="flex flex-column"> --}}
+    <div>
       <!-- 左側 -->
-      <div class="w-50-l ph4-l">
+
         <div class="entry-content lh-copy ph1 f5 f4-ns">
           @if($post->post_content=="")
             <p class="tc">記事を準備中</p>
@@ -34,10 +35,10 @@
             }
           }
           @endphp
-          <div class="ba mb1">
+          <div class="ba mb1 mh2-ns">
             {!! boxed_image('image-1', 'large', $noren) !!}
           </div>
-          <div class="flex justify-between">
+          <div class="flex justify-between mh2-ns">
             <div class="w-33 ba">
               {!! boxed_image('image-2', 'medium', $blank) !!}
             </div>
@@ -49,9 +50,9 @@
              </div>
           </div>
         </div>
-      </div>
+
       <!-- 右側 -->
-      <div class="w-50-l ph4-l">
+      <div class="">
         <h2 class="shopinfo-h2 mh2">営業内容</h2>
         <div class="flex my-dark-blue">
           @php
@@ -97,9 +98,7 @@
           <div class="flex pv2">
             <div class="w-30">電話番号</div>
             <div class="">
-              <a href="tel://{{ get_field('tel')}}" class="link my-purple b">
-                {{ get_field('tel') }}
-              </a>
+              {!! App\mobile_tel(array( 'class' => 'my-purple b' ), get_field('tel')) !!}
             </div>
           </div>
 
@@ -107,7 +106,7 @@
             <div class="w-30">HP</div>
             <div class="">
               @if ( get_field('url') )
-              <a href="{{ get_field('url') }}" target="_blank" class="link my-purple b">
+              <a href="{{ esc_url(get_field('url')) }}" target="_blank" class="link my-purple b">
                 あり
               </a>
               @else
@@ -134,19 +133,14 @@
         $location = get_field('location');
         $placeid = get_field('placeid');
         $address = get_field('address');
-
-        $link = "https://www.google.co.jp/maps/@" . $location['lat'] . "," . $location['lng'] . ",14z";
-        $link = "https://www.google.co.jp/maps/search/?api=1&query=" . $location['lat'] . "," . $location['lng'];
-        $link = "https://www.google.co.jp/maps/search/?api=1&query=" . get_the_title();
-        $link = "https://www.google.co.jp/maps/search/?api=1&query=" . urlencode( get_the_title() ) . "&center=" .  $location['lat'] . "," . $location['lng'];
         $link = "https://www.google.co.jp/maps/search/?api=1&query_place_id=" . $placeid . "&query=" . $address;
         @endphp
-        <div class="tc">
+        <div class="tc mh2-ns ba">
           <div id="map" style="height: 200px">地図が表示できません</div>
         </div>
-        <div class="tr">
-          <a href={{ $link }} class="dib" target="_blank">
-            地図アプリを開く
+        <div class="tr mv2 mh2">
+          <a href={{ $link }} class="dib ba bw1 w-100 w5-l my-dark-blue pa2 link" target="_blank">
+            <div class="tc dim b">Googleマップを開く</div>
           </a>
         </div>
         <script>
@@ -157,13 +151,20 @@
             var title = '{{ get_the_title() }}';
             var map = new google.maps.Map(document.getElementById('map'), {
               center: {lat: lat, lng: lng },
-              zoom: 12
+              zoom: 16
             });
 
-            var image = '';
+            var icon = '{{ App\asset_path('images/shichimaru_marker.png') }}';
+            var image = {
+                url: icon,
+                size: new google.maps.Size(48, 48),
+                origin: new google.maps.Point(0, 0),
+                scaledSize: new google.maps.Size(48, 48),
+            }
             var marker = new google.maps.Marker({
               position: {lat: lat, lng: lng },
               map: map,
+              icon: image,
               title: title,
             })
           }
@@ -172,7 +173,7 @@
     </div>
     <div>
       <h2 class="shopinfo-h2 mh2">取扱品目</h2>
-      <div class="flex flex-wrap shopinfo-items pl2">
+      <div class="flex flex-wrap shopinfo-items pl2 justify-center">
         @php
         $items = get_field('items');
         $icons = [
@@ -217,29 +218,30 @@
           <p class="f7 f4-ns b">{{ $label }}</p>
         </div>
         @endforeach
+        @for($i = 0; $i < (4 - count($items) % 4) % 4 ; $i++)
+        <div class="tc w-25 w4-l">
+        </div>
+        @endfor
 
       </div>
+      {{-- アフィリエイト --}}
+      @if( have_rows('rakuten') )
+      <h2 class="shopinfo-h2 mh2">販売商品</h2>
+      <div class="flex flex-wrap justify-around mh2-ns">
+      @while( have_rows('rakuten') ) @php(the_row())
+          <div class="" >
+          {{ the_sub_field('afis') }}
+          </div>
+      @endwhile
+      </div>
+      @endif
+
     </div>
-    <footer class="flex justify-center mb2">
-		  <div class="fb-like mr2" 
-		    data-href="{{ get_permalink() }}"
-		    data-layout="button" 
-		    data-action="like" 
-				data-share="true"
-		    data-show-faces="false">
-		  </div>
-      <div class="line-it-button" data-lang="ja" data-type="share-a" data-url="{{ get_permalink() }}" style="display: none;"></div>
+    <footer>
+    @include('partials.sns')
     </footer>
   </article>
   @endwhile
-  <div id="fb-root"></div>
-	<script>(function(d, s, id) {
-	  var js, fjs = d.getElementsByTagName(s)[0];
-	    if (d.getElementById(id)) return;
-	    js = d.createElement(s); js.id = id;
-	      js.src = 'https://connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v2.11&appId=267055100035726&autoLogAppEvents=1';
-	      fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));</script>
+
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBITY0ctRdIhL4OKpOOorDbwxTcXUxBok&callback=initMap&language=ja&region=JP" async defer></script>
-  <script src="https://d.line-scdn.net/r/web/social-plugin/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
 @endsection

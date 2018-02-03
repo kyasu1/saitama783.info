@@ -10,7 +10,7 @@
 
   <div class="ph1 pb3">
     @foreach( $areas as $area)
-    <h2 class="shopinfo-h2">{{ preg_replace("/^.{3}/", "", $area->name) }}</h2>
+    <h2 class="shopinfo-h2" id="{{ $area->slug }}">{{ preg_replace("/^.{3}/", "", $area->name) }}</h2>
     @php
     $args = array(
       'post_type' => 'shopinfo',
@@ -34,7 +34,7 @@
         <hr class="my-bg-dark-blue">
       @endif
     @endwhile @php(wp_reset_postdata())
-  
+
     @endforeach
   </div>
 @endsection

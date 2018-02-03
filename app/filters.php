@@ -68,3 +68,25 @@ add_filter('comments_template', function ($comments_template) {
     );
     return template_path(locate_template(["views/{$comments_template}", $comments_template]) ?: $comments_template);
 });
+
+add_filter('get_search_form', function () {
+  $form = '';
+  echo template('partials.site-search-form');
+  return $form;
+});
+
+/**
+ * 抜粋する文字数を変更する
+ * https://wpdocs.osdn.jp/%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E3%82%BF%E3%82%B0/the_excerpt
+ */
+add_filter('excerpt_mblength', function ($length) {
+  return 80;
+});
+
+/**
+ * 抜粋文の末尾にある文字列を変更する
+ * https://wpdocs.osdn.jp/%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E3%82%BF%E3%82%B0/the_excerpt
+ */
+add_filter('excerpt_more', function( $more ) {
+  return '　<a href="' . get_permalink( get_the_ID() ) . '">' . '続きを読む＞' . '</a>';
+});

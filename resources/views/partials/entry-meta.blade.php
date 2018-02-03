@@ -1,5 +1,6 @@
 <div class="fa5">
-  <time class="updated" datetime="{{ get_post_time('c', true) }}">{{ get_the_date('Y.m.d') }}</time>&nbsp;更新
+  <time class="updated" datetime="{{ get_the_modified_date('c') }}">{{ get_the_modified_date('Y.m.d') }}</time>&nbsp;更新
+  <span "dn author" rel="author">{{ get_the_author() }}</span>
 </div>
 @php
 /*

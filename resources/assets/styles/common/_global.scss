@@ -1,22 +1,68 @@
-.my-gold { color: $my-gold; }
-.my-bg-gold { background-color: $my-gold; }
-.my-b--gold { border-color: $my-gold; }
+.my-gold {
+  color: $my-gold;
+}
 
-.my-purple { color: $my-purple; }
-.my-bg-purple { background-color: $my-purple; }
-.my-b--purple { border-color: $my-purple; }
+.my-bg-gold {
+  background-color: $my-gold;
+}
 
-.my-dark-blue { color: $my-dark-blue; }
-.my-bg-dark-blue { background-color: $my-dark-blue; }
-.my-b--dark-blue { border-color: $my-dark-blue; }
+.my-b--gold {
+  border-color: $my-gold;
+}
 
-.menu-top { margin-top: -1rem; }
-.menu-bottom { margin-top: 0.7rem; }
+.my-purple {
+  color: $my-purple;
+}
+
+.my-bg-purple {
+  background-color: $my-purple;
+}
+
+.my-b--purple {
+  border-color: $my-purple;
+}
+
+/* my-dark-blue */
+
+.my-dark-blue {
+  color: $my-dark-blue;
+}
+
+.my-bg-dark-blue {
+  background-color: $my-dark-blue;
+}
+
+.my-b--dark-blue {
+  border-color: $my-dark-blue;
+}
+
+/* my-corso-red */
+
+.my-corso-red {
+  color: $my-corso-red;
+}
+
+.my-bg-corso-red {
+  background-color: $my-corso-red;
+}
+
+.my-b--corso-red {
+  border-color: $my-corso-red;
+}
+
+.menu-top {
+  margin-top: -1rem;
+}
+
+.menu-bottom {
+  margin-top: 0.7rem;
+}
 
 .box {
-  width: 100vw;
+  /*  width: 100vw; */
+
   height: 100vh;
-  background-image: url('../images/door.jpg');
+  background-image: url("../images/door.jpg");
   background-size: cover;
   background-position: center;
 }
@@ -32,6 +78,7 @@
   border-left: solid 5px $my-dark-blue;
 }
 
+/* 駅名にをクリックすると路線名をトグル表示する */
 .togglebox {
   position: relative;
   display: inline-block;
@@ -69,4 +116,60 @@
   bottom: 100%;
   left: 50%;
   margin-left: -40px;
+}
+
+/* 埼質連の歴史ページの年表をデザイン */
+.history {
+  border-left: 3px $my-dark-blue solid;
+}
+
+.history-year::before {
+  content: '';
+  width: 16px;
+  height: 16px;
+  background: $my-dark-blue;
+  border-radius: 100%;
+  position: absolute;
+  top: 8px;
+  left: -10px;
+}
+
+.history-year div:first-child {
+  width: 6rem;
+}
+
+/* sticky サポート */
+.sticky {
+  position: sticky;
+  top: 0;
+}
+
+/* scroll top button */
+#scroll {
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  background-color: #e3be8a;
+  text-indent: -9999px;
+  display: none;
+  border-radius: 100%;
+}
+
+#scroll span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -8px;
+  margin-top: -12px;
+  height: 0;
+  width: 0;
+  border: 8px solid transparent;
+  border-bottom-color: #fff;
+}
+
+#scroll:hover {
+  opacity: 0.8;
 }

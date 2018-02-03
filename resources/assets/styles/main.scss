@@ -3,6 +3,9 @@
 /** Import everything from autoload */
 @import "./autoload/**/*";
 
+/** Import Noto Sans JP Font **/
+@import url(https://fonts.googleapis.com/earlyaccess/notosansjp.css);
+
 /**
  * Import npm dependencies
  *
@@ -25,3 +28,7 @@
 @import "layouts/pages";
 @import "layouts/posts";
 @import "layouts/tinymce";
+
+* {
+  font-family: sans-serif;
+}

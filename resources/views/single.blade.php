@@ -2,6 +2,10 @@
 
 @section('content')
   @while(have_posts()) @php(the_post())
-    @include('partials.content-single-'.get_post_type())
+    @if(in_category('bargain'))
+      @include('partials.content-single-bargain')
+    @else
+      @include('partials.content-single-'.get_post_type())
+    @endif
   @endwhile
 @endsection
