@@ -65,32 +65,11 @@
       <p class="f5 ph2">商品数により各ブースの場所が若干変更になる場合がありますのでご了承ください</p>
 
       <h2 class="my-bg-corso-red white tc pv2">チラシ掲載商品</h2>
-      @php
-      $args = array(
-        'post_type' => 'post',
-        'posts_per_page' => -1,
-        'order' => 'ASC',
-        'tax_query' => array(
-          array(
-            'taxonomy' => 'category',
-            'field' => 'slug',
-            'terms' => '2018'
-          )
-        )
-      );
-      $the_query = new WP_Query( $args );
-      @endphp
-      @if( $the_query->have_posts() )
-          @while( $the_query->have_posts() ) @php($the_query->the_post())
-              @php
-              $id = get_field('image');
-              $tag = wp_get_attachment_image( $id, array(200, 200), false, array( 'class' => 'h-auto' ));
-              @endphp
-              <a href="{{ the_permalink() }}" title="{{ the_title() }}">{!! $tag !!}</a>
-          @endwhile @php(wp_reset_postdata())
-      @else
-          <p class="tc">準備中</p>
-      @endif
+      {!! App\related_bargain( array(
+          'year' => '2018',
+          'orderby' => 'ID',
+      ))
+      !!}
 
       <h2 class="my-bg-corso-red white tc pv2">イベント情報</h2>
 
@@ -172,5 +151,4 @@
       <p class="tc mv1"><img src="https://www.saitama783.info/wp-content/uploads/2018/01/shichimaru-01.png" alt="" width="229" height="266" class="aligncenter size-full wp-image-772" /></p>
   </div>
   @endwhile
-  @include('partials.sns')
 @endsection

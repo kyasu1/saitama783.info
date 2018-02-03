@@ -19,7 +19,7 @@
     @endphp
 
     @if (!empty($the_query))
-    <section>
+    <section class="ph2">
       @while( $the_query->have_posts() ) @php($the_query->the_post())
         @include('partials.content')
       @endwhile @php(wp_reset_postdata())
@@ -83,5 +83,4 @@
     </h3>
     <p class="ph1 ph3-ns">ご利用の際は、身分証明書が必要です。運転免許証や保険証、パスポートなどをお持ち下さい。詳細は各店舗に問い合わせ下さい。</p>
   </div>
-  @include('partials.sns')
 @endsection

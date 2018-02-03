@@ -2,7 +2,16 @@
   <a href="{{ the_permalink() }}" class="link" style="line-height: 0;" >
     <div class="w4 w5-ns ba b--dark-blue">
       @if( get_field('image-1') )
-        {!! wp_get_attachment_image( get_field('image-1'), 'medium', false, array( 'class' => 'h-auto' )) !!}
+          @php
+              $image = wp_get_attachment_image_src( get_field('image-1'), 'medium')
+          @endphp
+          <img class="h-auto lazyload"
+               src="@asset('images/gray.gif')"
+               data-src="{{ $image[0] }}"
+               width="{{ $image[1] }}"
+               height="{{ $image[2] }}"
+          />
+        {{-- {!! wp_get_attachment_image( get_field('image-1'), 'medium', false, array( 'class' => 'h-auto lazyload' )) !!} --}}
       @else
         <img src="@asset('images/00_noren.png')">
       @endif

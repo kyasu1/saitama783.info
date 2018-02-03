@@ -2,6 +2,9 @@
 
 namespace App;
 
+use WP_Query;
+use WP_Widget;
+
 //店舗情報カスタム投稿タイプ
 function shopinfo_register_post_types() {
   register_post_type( 'shopinfo', [
@@ -151,8 +154,49 @@ function mobile_tel($atts, $content = "")
 
 add_shortcode('tel', 'App\mobile_tel');
 
+// 関連記事
+function related_bargain($atts, $content = "") {
+  extract(shortcode_atts(array(
+      'year' => '2018',
+      'number' => -1,
+      'orderby' => 'title',
+      'exclude' => array(),
+  ), $atts));
+
+  $args = array(
+    'post_type' => 'post',
+    'posts_per_page' => $number,
+    'orderby' => $orderby,
+    'order' => 'ASC',
+    'post__not_in' => $exclude,
+    'tax_query' => array(
+      array(
+        'taxonomy' => 'category',
+        'field' => 'slug',
+        'terms' => $year,
+      )
+    )
+  );
+  $the_query = new WP_Query( $args );
+  if( $the_query->have_posts() ) {
+    $output = '';
+    $output .= '<div class="flex flex-wrap">';
+    while( $the_query->have_posts() ){
+      $the_query->the_post();
+      $id = get_field('image');
+      $tag = wp_get_attachment_image( $id, array(200, 200), false, array( 'class' => 'h-auto dim' ));
+      $output .= '<a href="' . get_permalink() . '" title="' . get_the_title() . '" class="dib dim">'. $tag . '</a>';
+    }
+    $output .= '</div>';
+    wp_reset_postdata();
+    return $output;
+  }
+}
+
+add_shortcode('related_bargain', 'App\related_bargain');
+
+
 /* Sidebar widget for retina image banner */
-use WP_Widget;
 
 add_action( 'widgets_init', function() {
   register_widget( 'App\retina_banner' );
@@ -171,6 +215,7 @@ class retina_banner extends WP_Widget {
     $image1x = $instance['image1x'];
     $image2x = $instance['image2x'];
     $url = $instance['url'];
+    $alt = $instance['alt'];
 
     echo $args['before_widget'];
     ?>
@@ -178,24 +223,38 @@ class retina_banner extends WP_Widget {
       <img src="<?php echo $image1x; ?>"
            srcset="<?php echo $image1x; ?> 1x, <?php echo $image2x; ?> 2x"
            class="w-100"
+           alt="<?php echo $alt; ?>"
       />
     </a>
+    <?php if( !empty( $title ) ) { ?>
+    <p class="f6 tc mv1"><?php echo $title; ?>
+    <?php } ?>
     <?php
     echo $args['after_widget'];
   }
 
   public function form( $instance ) {
     if( $instance ) {
+      $title = isset($instance['title']) ? $instance['title'] : '';
       $image1x = isset($instance['image1x']) ? $instance['image1x'] : '';
       $image2x = isset($instance['image2x']) ? $instance['image2x'] : '';
       $url = isset($instance['url']) ? $instance['url'] : '';
+      $alt = isset($instance['alt']) ? $instance['alt'] : '';
     } else {
+      $title = '';
       $image1x = '';
       $image2x = '';
       $url = '';
+      $alt= '';
     }
     ?>
     <p>
+      <label for="<?php echo $this->get_field_id( 'title' ); ?>">Title</label>
+      <input class="widefat" id="<?php echo $this->get_field_id( 'title' )?>"
+             name="<?php echo $this->get_field_name( 'title' ); ?>"
+             type="text"
+             value="<?php echo esc_attr( $title ); ?>" />
+    </p>    <p>
       <label for="<?php echo $this->get_field_id( 'image1x' ); ?>">Image 1x</label>
       <input class="widefat" id="<?php echo $this->get_field_id( 'image1x' )?>"
              name="<?php echo $this->get_field_name( 'image1x' ); ?>"
@@ -216,6 +275,13 @@ class retina_banner extends WP_Widget {
              type="text"
              value="<?php echo esc_attr( $url ); ?>" />
     </p>
+    <p>
+      <label for="<?php echo $this->get_field_id( 'alt' ); ?>">ALT</label>
+      <input class="widefat" id="<?php echo $this->get_field_id( 'alt' )?>"
+             name="<?php echo $this->get_field_name( 'alt' ); ?>"
+             type="text"
+             value="<?php echo esc_attr( $alt ); ?>" />
+    </p>
     <?php
   }
 
@@ -225,6 +291,7 @@ class retina_banner extends WP_Widget {
     $instance['image1x'] = ( !empty( $new_instance['image1x'] ) ) ? strip_tags( $new_instance['image1x'] ) :'';
     $instance['image2x'] = ( !empty( $new_instance['image2x'] ) ) ? strip_tags( $new_instance['image2x'] ) :'';
     $instance['url'] = ( !empty( $new_instance['url'] ) ) ? strip_tags( $new_instance['url'] ) :'';
+    $instance['alt'] = ( !empty( $new_instance['alt'] ) ) ? strip_tags( $new_instance['alt'] ) :'';
     return $instance;
   }
 }

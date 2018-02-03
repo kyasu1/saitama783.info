@@ -6,6 +6,9 @@ Lightbox.option({
 //  'disableScrolling': true,
 });
 
+import LazyLoad from './lazyload.js';
+new LazyLoad();
+
 // Import everything from autoload
 import "./autoload/**/*"
 

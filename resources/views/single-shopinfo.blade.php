@@ -14,7 +14,7 @@
 
         <div class="entry-content lh-copy ph1 f5 f4-ns">
           @if($post->post_content=="")
-            <p class="tc">記事を準備中</p>
+            {{-- <p class="tc">記事を準備中</p> --}}
           @else
             @php(the_content())
           @endif
@@ -238,7 +238,7 @@
 
     </div>
     <footer>
-    @include('partials.sns')
+
     </footer>
   </article>
   @endwhile

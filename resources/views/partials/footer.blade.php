@@ -1,6 +1,9 @@
 <footer class="content-info">
   <div class="container">
 {{--    @php(dynamic_sidebar('sidebar-footer')) --}}
+    @if( !is_archive() )
+      @include('partials.sns')
+    @endif
     <div class="ph1 ph4-m ph6-l pv2 lh-copy my-bg-gold white">
       <div class="tc tr-l f3">
         <a href="{{ get_home_url() }}" class="link white">
